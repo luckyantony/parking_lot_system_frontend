@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const API_URL = 'https://your-backend-url.onrender.com';
+
 export default function BookingForm({ onBook }) {
   const [vehicleNumber, setVehicleNumber] = useState('');
   const [loading, setLoading] = useState(false);

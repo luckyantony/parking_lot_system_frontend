@@ -1,5 +1,7 @@
 import React from 'react';
 
+const API_URL = 'https://your-backend-url.onrender.com';
+
 export default function SpotsList({ spots, onUnbook }) {
   if (!spots || spots.length === 0) {
     return <p className="text-center text-gray-500">No parking spots available.</p>;
