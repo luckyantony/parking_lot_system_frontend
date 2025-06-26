@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const API_URL = 'https://parking-lot-system-3g7g.onrender.com';
+const API_URL = 'https://parking-lot-system-3g7g.onrender.com/';
 
 export default function BookingForm({ onBook }) {
   const [vehicleNumber, setVehicleNumber] = useState('');

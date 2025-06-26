@@ -1,6 +1,6 @@
 import React from 'react';
 
-const API_URL = 'https://parking-lot-system-3g7g.onrender.com';
+const API_URL = 'https://parking-lot-system-3g7g.onrender.com/';
 
 export default function SpotsList({ spots, onUnbook }) {
   if (!spots || spots.length === 0) {
