@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const BASE_URL = "https://your-backend-url/api";
+const BASE_URL = "https://parking-lot-system-3g7g.onrender.com/";
 
 export default function VehicleList() {
   const [vehicles, setVehicles] = useState([]);
