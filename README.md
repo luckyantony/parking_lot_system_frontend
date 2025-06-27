@@ -1,12 +1,127 @@
-# React + Vite
+# SafeSpot Parking Lot Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based parking lot reservation system where users can register, log in, and reserve a parking spot labeled from A–Z.
 
-Currently, two official plugins are available:
+> **Live Backend**: [`https://parking-lot-system-3g7g.onrender.com`](https://parking-lot-system-3g7g.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Project Overview:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+SafeSpot allows authenticated users to reserve parking spaces in a virtual parking lot that represents the parking lot owned by the company. The frontend is built with **React and Vite**, uses **Tailwind CSS** for styling, and communicates with a **token-based backend API** .
+
+---
+
+## System Features:
+
+- User registration and login using username/password.
+- Protected routes for authenticated and logged in users.
+- Token stored in local storage.
+- Reserve parking slots.
+- Context-based auth state management
+- Tailwind CSS styling.
+
+---
+
+## Folder Structure:
+
+├── package.json
+├── package-lock.json
+├── public
+│ └── vite.svg
+├── README.md
+├── src
+│ ├── App.jsx
+│ ├── assets
+│ │ └── react.svg
+│ ├── AuthContext.jsx
+│ ├── components
+│ │ ├── AuthForm.jsx
+│ │ ├── BookingForm.jsx
+│ │ ├── SpotList.jsx
+│ │ ├── VehicleForm.jsx
+│ │ └── VehicleList.jsx
+│ ├── config.js
+│ ├── index.css
+│ ├── main.jsx
+│ └── pages
+│ └── Home.jsx
+└── vite.config.js
+
+---
+
+## Authentication Procedure:
+
+1. User registers or logs in via `POST /register` or `POST /login`
+2. Backend responds with a token
+
+## Setup Instructions:
+
+### 1. Clone the Repository:
+
+```
+bash
+
+git clone https://github.com/your-team/safespot-parking-app.git
+```
+
+### 2. Move into the Repository Directory:
+
+```
+bash
+
+cd safespot-parking-app
+```
+
+### 3. Install Dependencies:
+
+```
+bash
+
+npm install
+```
+
+### 4. Run the App:
+
+```
+bash
+
+npm run dev
+```
+
+---
+
+### 5. Open your browser at http://localhost:5173.
+
+### 6. Login/Register to reserve your space.
+
+---
+
+## Team Roles:
+
+### Kyle Mwendwa (Frontend Auth + UI)
+
+- Login & Register UI using `username` + `password`
+- AuthContext with `token` management
+- Home page layout
+- Logout and protected dashboard routing
+- API endpoints made configurable in `config.js`
+
+### Lydia Okwemba (Parking Slot Management)
+
+- Add/Edit vehicle form
+- Vehicle List
+- User list
+
+### Sharlyn Sirma (Vehicle Booking + Forms)
+- Spot reservation logic (A–Z)
+- Fetch and display reserved slots from backend
+- Spot status updates
+
+### Luckyantony Leshan(Backend)
+
+- RESTful API using JWT auth
+- Endpoints for login, register, reservations
+- Hosted on Render
+
+---
