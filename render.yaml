@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: parking-lot-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://parking-lot-system-3g7g.onrender.com/api
