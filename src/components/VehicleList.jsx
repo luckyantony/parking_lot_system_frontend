@@ -1,56 +1,67 @@
-import { useEffect, useState } from "react"; // Added useState import
+import { useEffect, useState } from "react";
 import { API_BASE_URL, ENDPOINTS } from "../config";
-import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function VehicleList({ vehicles, setVehicles }) {
-  const [error, setError] = useState(null);
-  const { logout } = useAuth();
+function VehicleList({ refreshKey }) {
+  const [vehicles, setVehicles] = useState([]);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchVehicles = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/");
       return;
     }
 
-    // Fetch vehicles on mount to initialize the list
     fetch(`${API_BASE_URL}${ENDPOINTS.vehicles}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
-      .then((r) => {
-        if (!r.ok) {
-          if (r.status === 401) {
-            logout();
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem("token");
             navigate("/");
-            throw new Error("Session expired. Please log in again.");
+            throw new Error("Please log in again");
           }
           throw new Error("Failed to fetch vehicles");
         }
-        return r.json();
+        return response.json();
       })
-      .then(setVehicles) // Update state with fetched vehicles
+      .then(setVehicles)
       .catch((err) => setError(err.message));
-  }, [logout, navigate, setVehicles]);
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+  }, [refreshKey]);
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 p-4 bg-white shadow rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">Vehicle List</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="p-4 bg-white shadow-lg rounded-lg border border-gray-200">
+      <h2 className="text-xl font-semibold mb-2">Your Vehicles</h2>
+      {error && <p className="text-red-600 font-semibold mb-2">{error}</p>}
       {vehicles.length === 0 ? (
-        <p className="text-gray-500">No vehicles registered.</p>
+        <p className="text-gray-500">No vehicles added yet.</p>
       ) : (
         <ul className="space-y-2">
           {vehicles.map((v) => (
-            <li key={v.id} className="border p-2 rounded">
-              <strong>{v.plate_number}</strong> - {v.type || "Unknown Type"}
+            <li
+              key={v.id}
+              className="border p-2 bg-gray-100 rounded-md"
+            >
+              <span className="font-semibold text-gray-800">{v.plate_number}</span> - {v.type || "No Type"}
             </li>
           ))}
         </ul>
       )}
+      <button
+        onClick={fetchVehicles}
+        className="mt-2 bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition"
+      >
+        Refresh
+      </button>
     </div>
   );
 }
+
+export default VehicleList;

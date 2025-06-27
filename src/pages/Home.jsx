@@ -4,17 +4,13 @@ import { Navigate } from "react-router-dom";
 
 function Home() {
   const { token } = useAuth();
+
   if (token) return <Navigate to="/dashboard" replace />;
 
   return (
-    <div className="w-screen h-screen bg-gray-900 flex items-center justify-center">
-      <div className="bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-2 text-center">
-          Welcome to SafeSpot
-        </h1>
-        <p className="text-gray-300 mb-6 text-center">
-          Reserve your perfect parking spot.
-        </p>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto my-4">
+        <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">Welcome to SafeSpot Parking</h1>
         <AuthForm />
       </div>
     </div>

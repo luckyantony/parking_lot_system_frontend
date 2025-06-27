@@ -1,75 +1,86 @@
 import { useState } from "react";
 import { API_BASE_URL, ENDPOINTS } from "../config";
-import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function VehicleForm({ onAddVehicle }) {
+function VehicleForm({ triggerRefresh }) {
   const [plateNumber, setPlateNumber] = useState("");
   const [type, setType] = useState("");
-  const [error, setError] = useState(null);
-  const { logout } = useAuth();
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!plateNumber) {
       setError("Plate number is required");
       return;
     }
 
-    const newVehicle = { plate_number: plateNumber, type: type || null };
     const token = localStorage.getItem("token");
-    try {
-      const res = await fetch(`${API_BASE_URL}${ENDPOINTS.vehicles}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newVehicle),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        if (res.status === 401) {
-          logout();
-          navigate("/");
-          throw new Error("Session expired. Please log in again.");
+    fetch(`${API_BASE_URL}${ENDPOINTS.vehicles}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ plate_number: plateNumber, type: type || null }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem("token");
+            navigate("/");
+            throw new Error("Please log in again");
+          }
+          return response.json().then((data) => {
+            throw new Error(data.error || "Failed to add vehicle");
+          });
         }
-        throw new Error(data.error || "Failed to add vehicle");
-      }
-      const data = await res.json();
-      onAddVehicle(data);
-      setPlateNumber("");
-      setType("");
-      setError(null);
-    } catch (err) {
-      setError(err.message);
-    }
+        return response.json();
+      })
+      .then(() => {
+        setPlateNumber("");
+        setType("");
+        setError("");
+        alert("Vehicle added!");
+        triggerRefresh();
+      })
+      .catch((err) => setError(err.message));
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white shadow rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Register Vehicle</h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      <input
-        type="text"
-        placeholder="Plate Number (e.g., KCN123X)"
-        className="w-full mb-2 p-2 border rounded"
-        value={plateNumber}
-        onChange={(e) => setPlateNumber(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Vehicle Type (e.g., SUV)"
-        className="w-full mb-4 p-2 border rounded"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-      />
+    <div className="p-4 bg-white shadow-lg rounded-lg border border-gray-200">
+      <h2 className="text-xl font-semibold mb-2">Add Vehicle</h2>
+      {error && <p className="text-red-600 font-semibold mb-2">{error}</p>}
+      <div className="flex gap-2 mb-2">
+        <div className="flex-1">
+          <label className="block text-gray-700 mb-1">Plate Number</label>
+          <input
+            type="text"
+            placeholder="e.g., KCN123X"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={plateNumber}
+            onChange={(e) => setPlateNumber(e.target.value)}
+          />
+        </div>
+        <div className="flex-1">
+          <label className="block text-gray-700 mb-1">Vehicle Type</label>
+          <input
+            type="text"
+            placeholder="e.g., SUV"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          />
+        </div>
+      </div>
       <button
         onClick={handleSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition"
       >
-        Submit
+        Add Vehicle
       </button>
     </div>
   );
 }
+
+export default VehicleForm;
