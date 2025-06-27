@@ -6,27 +6,31 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-
-  const register = async (username, password) => {
+  const register = async (username, email, password) => {
     const res = await fetch(`${API_BASE_URL}${ENDPOINTS.register}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, email, password }),
     });
-    if (!res.ok) throw new Error("Registration failed");
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || "Registration failed");
+    }
     const data = await res.json();
     setToken(data.token);
     localStorage.setItem("token", data.token);
   };
 
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     const res = await fetch(`${API_BASE_URL}${ENDPOINTS.login}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     });
-
-    if (!res.ok) throw new Error("Login failed");
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || "Login failed");
+    }
     const data = await res.json();
     setToken(data.token);
     localStorage.setItem("token", data.token);
