@@ -5,10 +5,17 @@ import SpotList from "./components/SpotList";
 import VehicleList from "./components/VehicleList";
 import VehicleForm from "./components/VehicleForm";
 import BookingForm from "./components/BookingForm";
+import UserProfile from "./components/UserProfile";
 import { Navigate } from "react-router-dom";
+import { useState } from "react";
 
 function App() {
   const { token, logout } = useAuth();
+  const [vehicles, setVehicles] = useState([]);
+
+  const handleAddVehicle = (newVehicle) => {
+    setVehicles((prevVehicles) => [...prevVehicles, newVehicle]);
+  };
 
   const ProtectedRoute = ({ children }) => {
     return token ? children : <Navigate to="/" replace />;
@@ -16,7 +23,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />}></Route>
+      <Route path="/" element={<Home />} />
       <Route
         path="/dashboard"
         element={
@@ -29,15 +36,16 @@ function App() {
                 Logout
               </button>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <VehicleForm />
-                <VehicleList />
+                <UserProfile />
+                <VehicleForm onAddVehicle={handleAddVehicle} />
+                <VehicleList vehicles={vehicles} setVehicles={setVehicles} />
                 <BookingForm />
                 <SpotList />
               </div>
             </div>
           </ProtectedRoute>
         }
-      ></Route>
+      />
     </Routes>
   );
 }

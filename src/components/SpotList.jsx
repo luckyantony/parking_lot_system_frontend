@@ -28,7 +28,6 @@ export default function SpotList() {
   const handleUnbook = async (spotId) => {
     const token = localStorage.getItem("token");
     try {
-      // Fetch tickets to find the active ticket for this spot
       const resTickets = await fetch(`${API_BASE_URL}${ENDPOINTS.tickets}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -66,7 +65,6 @@ export default function SpotList() {
         throw new Error(data.error || "Failed to check out");
       }
       alert("Spot checked out successfully!");
-      // Refresh spots
       fetch(`${API_BASE_URL}${ENDPOINTS.spots}`)
         .then((r) => r.json())
         .then(setSpots);

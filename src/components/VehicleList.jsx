@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // Added useState import
 import { API_BASE_URL, ENDPOINTS } from "../config";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function VehicleList() {
-  const [vehicles, setVehicles] = useState([]);
+export default function VehicleList({ vehicles, setVehicles }) {
   const [error, setError] = useState(null);
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ export default function VehicleList() {
       return;
     }
 
+    // Fetch vehicles on mount to initialize the list
     fetch(`${API_BASE_URL}${ENDPOINTS.vehicles}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,9 +32,9 @@ export default function VehicleList() {
         }
         return r.json();
       })
-      .then(setVehicles)
+      .then(setVehicles) // Update state with fetched vehicles
       .catch((err) => setError(err.message));
-  }, [logout, navigate]);
+  }, [logout, navigate, setVehicles]);
 
   return (
     <div className="max-w-4xl mx-auto mt-8 p-4 bg-white shadow rounded-lg">

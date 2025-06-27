@@ -24,7 +24,7 @@ SafeSpot allows authenticated users to reserve parking spaces in a virtual parki
 ---
 
 ## Folder Structure:
-
+```
 ├── package.json
 ├── package-lock.json
 ├── public
@@ -47,7 +47,7 @@ SafeSpot allows authenticated users to reserve parking spaces in a virtual parki
 │ └── pages
 │ └── Home.jsx
 └── vite.config.js
-
+```
 ---
 
 ## Authentication Procedure:

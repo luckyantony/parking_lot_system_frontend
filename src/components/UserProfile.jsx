@@ -12,28 +12,49 @@ export default function UserProfile() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
+      console.log("No token found, redirecting to login");
       navigate("/");
       return;
     }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5-second timeout
 
     fetch(`${API_BASE_URL}${ENDPOINTS.me}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      signal: controller.signal,
     })
       .then((r) => {
+        clearTimeout(timeoutId);
+        console.log("Fetch response status:", r.status, r.statusText);
         if (!r.ok) {
           if (r.status === 401) {
+            console.log("401 Unauthorized, logging out");
             logout();
             navigate("/");
             throw new Error("Session expired. Please log in again.");
           }
-          throw new Error("Failed to fetch user profile");
+          throw new Error(`Failed to fetch user profile: ${r.statusText}`);
         }
         return r.json();
       })
-      .then(setUser)
-      .catch((err) => setError(err.message));
+      .then((data) => {
+        console.log("User profile data:", data);
+        setUser(data);
+      })
+      .catch((err) => {
+        clearTimeout(timeoutId);
+        if (err.name === "AbortError") {
+          setError("Request timed out. Please try again.");
+        } else {
+          setError(err.message);
+        }
+        console.error("Fetch error:", err);
+      });
+
+    return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
   }, [logout, navigate]);
 
   return (
