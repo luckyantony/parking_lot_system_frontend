@@ -48,35 +48,28 @@ function VehicleForm({ triggerRefresh }) {
   };
 
   return (
-    <div className="p-4 bg-white shadow-lg rounded-lg border border-gray-200">
-      <h2 className="text-xl font-semibold mb-2">Add Vehicle</h2>
-      {error && <p className="text-red-600 font-semibold mb-2">{error}</p>}
-      <div className="flex gap-2 mb-2">
-        <div className="flex-1">
-          <label className="block text-gray-700 mb-1">Plate Number</label>
-          <input
-            type="text"
-            placeholder="e.g., KCN123X"
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={plateNumber}
-            onChange={(e) => setPlateNumber(e.target.value)}
-          />
-        </div>
-        <div className="flex-1">
-          <label className="block text-gray-700 mb-1">Vehicle Type</label>
-          <input
-            type="text"
-            placeholder="e.g., SUV"
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          />
-        </div>
+    <div className="card">
+      <h2>Add Vehicle</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className="form-group">
+        <label>Plate Number</label>
+        <input
+          type="text"
+          placeholder="e.g., KCN123X"
+          value={plateNumber}
+          onChange={(e) => setPlateNumber(e.target.value)}
+        />
       </div>
-      <button
-        onClick={handleSubmit}
-        className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition"
-      >
+      <div className="form-group">
+        <label>Vehicle Type</label>
+        <input
+          type="text"
+          placeholder="e.g., SUV"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+        />
+      </div>
+      <button className="primary-btn" onClick={handleSubmit}>
         Add Vehicle
       </button>
     </div>

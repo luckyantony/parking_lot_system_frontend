@@ -76,30 +76,23 @@ function SpotList({ refreshKey }) {
   };
 
   return (
-    <div className="mt-4 p-4 bg-white shadow-lg rounded-lg">
-      <h2 className="text-xl font-semibold mb-2">Parking Spots</h2>
-      {error && <p className="text-red-600 font-semibold mb-2">{error}</p>}
+    <div className="card">
+      <h2>Parking Spots</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {spots.length === 0 ? (
-        <p className="text-gray-500">No spots available.</p>
+        <p>No spots available.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="spot-grid">
           {spots.map((spot) => (
             <div
               key={spot.id}
-              className={`p-2 border border-gray-200 rounded-md ${spot.status === "available" ? "bg-green-50" : "bg-red-50"}`}
+              className={`spot-card ${spot.status === "available" ? "available" : "occupied"}`}
             >
-              <p className="text-lg font-semibold text-gray-800">Spot #{spot.spot_number}</p>
-              <p className="text-gray-600">
-                Status: <span className={spot.status === "available" ? "text-green-600" : "text-red-600"}>
-                  {spot.status === "available" ? "Available" : "Occupied"}
-                </span>
-              </p>
-              <p className="text-gray-600">Lot: {spot.lot}</p>
+              <p>Spot #{spot.spot_number}</p>
+              <p>Status: {spot.status === "available" ? "Available" : "Occupied"}</p>
+              <p>Lot: {spot.lot}</p>
               {spot.status === "occupied" && (
-                <button
-                  onClick={() => handleUnbook(spot.id)}
-                  className="mt-2 bg-gray-700 text-white py-1 px-2 rounded hover:bg-gray-800 transition"
-                >
+                <button className="checkout-btn" onClick={() => handleUnbook(spot.id)}>
                   Check Out
                 </button>
               )}

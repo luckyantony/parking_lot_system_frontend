@@ -27,22 +27,17 @@ function App() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
-              <div className="flex justify-end mb-4">
-                <button
-                  onClick={logout}
-                  className="text-indigo-500 hover:text-indigo-700"
-                >
-                  Logout
-                </button>
+            <div className="dashboard-container">
+              <div className="dashboard-header">
+                SafeSpot Parking Dashboard
               </div>
-              <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">SafeSpot Parking Dashboard</h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-7xl mx-auto">
-                <VehicleForm triggerRefresh={triggerRefresh} />
-                <VehicleList refreshKey={refreshKey} />
-                <BookingForm triggerRefresh={triggerRefresh} />
-                <SpotList refreshKey={refreshKey} />
-              </div>
+              <a href="#" className="logout-btn" onClick={logout}>
+                Logout
+              </a>
+              <VehicleForm triggerRefresh={triggerRefresh} className="card" />
+              <VehicleList refreshKey={refreshKey} className="card" />
+              <BookingForm triggerRefresh={triggerRefresh} className="card" />
+              <SpotList refreshKey={refreshKey} className="spot-grid card" />
             </div>
           </ProtectedRoute>
         }

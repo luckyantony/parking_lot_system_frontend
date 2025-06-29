@@ -37,27 +37,19 @@ function VehicleList({ refreshKey }) {
   }, [refreshKey]);
 
   return (
-    <div className="p-4 bg-white shadow-lg rounded-lg border border-gray-200">
-      <h2 className="text-xl font-semibold mb-2">Your Vehicles</h2>
-      {error && <p className="text-red-600 font-semibold mb-2">{error}</p>}
+    <div className="card">
+      <h2>Your Vehicles</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {vehicles.length === 0 ? (
-        <p className="text-gray-500">No vehicles added yet.</p>
+        <p>No vehicles added yet.</p>
       ) : (
-        <ul className="space-y-2">
+        <ul>
           {vehicles.map((v) => (
-            <li
-              key={v.id}
-              className="border p-2 bg-gray-100 rounded-md"
-            >
-              <span className="font-semibold text-gray-800">{v.plate_number}</span> - {v.type || "No Type"}
-            </li>
+            <li key={v.id}>{v.plate_number} - {v.type || "No Type"}</li>
           ))}
         </ul>
       )}
-      <button
-        onClick={fetchVehicles}
-        className="mt-2 bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition"
-      >
+      <button className="secondary-btn" onClick={fetchVehicles}>
         Refresh
       </button>
     </div>

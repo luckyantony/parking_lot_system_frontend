@@ -77,45 +77,32 @@ function BookingForm({ triggerRefresh }) {
   };
 
   return (
-    <div className="p-4 bg-white shadow-lg rounded-lg border border-gray-200">
-      <h2 className="text-xl font-semibold mb-2">Book a Spot</h2>
-      {error && <p className="text-red-600 font-semibold mb-2">{error}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
-        <div>
-          <label className="block text-gray-700 mb-1">Select Vehicle</label>
-          <select
-            value={vehicleId}
-            onChange={(e) => setVehicleId(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Choose a Vehicle</option>
-            {vehicles.map((v) => (
-              <option key={v.id} value={v.id}>
-                {v.plate_number} ({v.type || "No Type"})
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Select Spot</label>
-          <select
-            value={parkingSpotId}
-            onChange={(e) => setParkingSpotId(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value="">Choose a Spot</option>
-            {spots.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.spot_number} ({s.lot})
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="card">
+      <h2>Book a Spot</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className="form-group">
+        <label>Select Vehicle</label>
+        <select value={vehicleId} onChange={(e) => setVehicleId(e.target.value)}>
+          <option value="">Choose a Vehicle</option>
+          {vehicles.map((v) => (
+            <option key={v.id} value={v.id}>
+              {v.plate_number} ({v.type || "No Type"})
+            </option>
+          ))}
+        </select>
       </div>
-      <button
-        onClick={handleBooking}
-        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
-      >
+      <div className="form-group">
+        <label>Select Spot</label>
+        <select value={parkingSpotId} onChange={(e) => setParkingSpotId(e.target.value)}>
+          <option value="">Choose a Spot</option>
+          {spots.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.spot_number} ({s.lot})
+            </option>
+          ))}
+        </select>
+      </div>
+      <button className="primary-btn" onClick={handleBooking}>
         Book Spot
       </button>
     </div>
