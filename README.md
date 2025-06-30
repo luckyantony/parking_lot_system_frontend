@@ -108,6 +108,7 @@ npm run dev
 - Home page layout
 - Logout and protected dashboard routing
 - API endpoints made configurable in `config.js`
+- README file
 
 ### Lydia Okwemba (Parking Slot Management)
 
