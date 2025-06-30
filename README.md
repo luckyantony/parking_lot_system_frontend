@@ -99,6 +99,8 @@ npm run dev
 
 ## Team Roles:
 
+## Front End
+
 ### Kyle Mwendwa (Frontend Auth + UI)
 
 - Login & Register UI using `username` + `password`
@@ -118,10 +120,16 @@ npm run dev
 - Fetch and display reserved slots from backend
 - Spot status updates
 
+## Back End
+
 ### Luckyantony Leshan(Backend)
 
-- RESTful API using JWT auth
-- Endpoints for login, register, reservations
+- Flask 
+- RESTful API having secure access and token using JWT auth
+- Data management for saving vehicle details and parking spot statuses in the database
+- API Endpoints for login, register, reservations, adding vehicles, fetching lists, booking spots, and checking out.
+- Error handling for invalid inputs and expired tokens with realtime data sync
+- Backend and frontend integration
 - Hosted on Render
 
 ---
