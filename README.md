@@ -125,6 +125,7 @@ npm run dev
 
 ### Luckyantony Leshan(Backend)
 
+
 - Flask 
 - RESTful API having secure access and token using JWT auth
 - Data management for saving vehicle details and parking spot statuses in the database
